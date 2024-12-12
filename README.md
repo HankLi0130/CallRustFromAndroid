@@ -1,10 +1,14 @@
-# Call Rust from Android
+# Call Rust from Kotlin on Android Client
 
 ## Key notes for Android
 
+### Before setup
+
 - Download NDK
 
-- Add code below to project leve `build.gradle`
+### Setup
+
+Add code below to project leve `build.gradle`
 
 ```
 plugins {
@@ -13,7 +17,7 @@ plugins {
 }
 ```
 
-- Add code below to module level `build.gradle`
+Add code below to module level `build.gradle`
 
 ```
 ...
@@ -33,10 +37,13 @@ apply plugin: 'org.mozilla.rust-android-gradle.rust-android'
 cargo {
     pythonCommand = "/usr/bin/python3"
 
+    // The path of the Rust module
     module  = "../../rust_android"
+    
+    // The name of the Rust library
     libname = "rust_android"
+    
     targets = ["arm", "arm64", "x86", "x86_64"]
-
     verbose = true
 }
 
@@ -49,7 +56,7 @@ tasks.configureEach { task ->
 }
 ``` 
 
-### References
+## References
 
 - [Building cross platform library with Rust for ios and android](https://digvijayu.medium.com/building-cross-platform-library-with-rust-for-ios-and-android-c56a448e4804)
 - [digvijayu / rust-crossplatform-library](https://github.com/digvijayu/rust-crossplatform-library)
