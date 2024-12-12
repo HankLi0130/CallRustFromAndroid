@@ -2,14 +2,14 @@
 
 ## Key notes for Android
 
-- Download NDK (using 24.0.8215888 here)
+- Download NDK
 
 - Add code below to project leve `build.gradle`
 
 ```
 plugins {
     ...
-    id "org.mozilla.rust-android-gradle.rust-android" version "0.9.2"
+    id "org.mozilla.rust-android-gradle.rust-android" version "0.9.5" apply false
 }
 ```
 
@@ -20,7 +20,7 @@ plugins {
 
 android {
     ...
-    ndkVersion = '24.0.8215888'
+    ndkVersion = '26.3.11579264'
     ...
 }
 
@@ -42,7 +42,7 @@ cargo {
 
 // Add it as a dependency to one of your other build tasks, to build your rust code when you
 // normally build your project
-tasks.whenTaskAdded { task ->
+tasks.configureEach { task ->
     if ((task.name == 'javaPreCompileDebug' || task.name == 'javaPreCompileRelease')) {
         task.dependsOn 'cargoBuild'
     }
