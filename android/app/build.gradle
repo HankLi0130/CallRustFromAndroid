@@ -32,6 +32,7 @@ android {
         jvmTarget = '11'
     }
     buildFeatures {
+        viewBinding = true
         buildConfig = true
     }
 }
@@ -54,8 +55,8 @@ apply plugin: 'org.mozilla.rust-android-gradle.rust-android'
 cargo {
     pythonCommand = "/usr/bin/python3"
 
-    module  = "../../rust_android"
-    libname = "rust_android"
+    module = "../../rust_lib"
+    libname = "jni_android"
     targets = ["arm", "arm64", "x86", "x86_64"]
 
     verbose = true

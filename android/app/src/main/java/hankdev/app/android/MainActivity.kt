@@ -2,28 +2,18 @@ package hankdev.app.android
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import android.util.Log
+import hankdev.app.android.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), JNICallback {
-
-    init {
-        System.loadLibrary("rust_android")
-    }
+class MainActivity : AppCompatActivity() {
+    private val tag = "MainActivity"
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        invokeCallbackViaJNI(this)
-    }
-
-    /**
-     * A native method that is implemented by the 'rust' native library,
-     * which is packaged with this application.
-     */
-    external fun invokeCallbackViaJNI(callback: JNICallback)
-
-    override fun callback(string: String) {
-        findViewById<TextView>(R.id.helloLabel).text = string
+        binding.call1.setOnClickListener { Log.i(tag, RustLib.hello("Android")) }
     }
 }
