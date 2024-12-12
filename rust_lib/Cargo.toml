@@ -1,0 +1,6 @@
+[workspace]
+members = [
+	"core",
+	"jni_android",
+]
+resolver = "2"
