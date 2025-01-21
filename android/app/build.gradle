@@ -61,11 +61,3 @@ cargo {
 
     verbose = true
 }
-
-// Add it as a dependency to one of your other build tasks, to build your rust code when you
-// normally build your project
-tasks.configureEach { task ->
-    if ((task.name == 'javaPreCompileDebug' || task.name == 'javaPreCompileRelease')) {
-        task.dependsOn 'cargoBuild'
-    }
-}
