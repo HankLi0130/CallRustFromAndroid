@@ -18,21 +18,16 @@ use jni::sys::jstring;
 pub extern "C" fn Java_hankdev_app_android_RustLib_hello(
     mut env: JNIEnv,
     _class: JClass,
-    input: JString,
+    name: JString,
 ) -> jstring {
-    // First, we have to get the string out of Java. Check out the `strings`
-    // module for more info on how this works.
-    let input: String = env
-        .get_string(&input)
+    let name: String = env
+        .get_string(&name)
         .expect("Couldn't get java string!")
         .into();
 
-    // Then we have to create a new Java string to return. Again, more info
-    // in the `strings` module.
-    let output = env
-        .new_string(format!("Hello, {}!", input))
-        .expect("Couldn't create java string!");
+    let message = core::hello(&name);
 
-    // Finally, extract the raw pointer to return.
-    output.into_raw()
+    env.new_string(message)
+        .expect("Couldn't get java string!")
+        .into_raw()
 }

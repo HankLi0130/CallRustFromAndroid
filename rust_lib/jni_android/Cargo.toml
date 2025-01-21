@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 jni = "0.21.1"
+core = { path = "../core" }
 
 [lib]
 name = "jni_android"
