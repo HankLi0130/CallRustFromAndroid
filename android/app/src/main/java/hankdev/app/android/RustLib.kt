@@ -6,5 +6,5 @@ object RustLib {
         System.loadLibrary("jni_android")
     }
 
-    external fun hello(input: String): String
+    external fun hello(name: String): String
 }
