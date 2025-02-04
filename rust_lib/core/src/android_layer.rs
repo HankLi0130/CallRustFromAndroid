@@ -1,4 +1,5 @@
 use std::fmt;
+use std::os::raw::{c_char, c_int};
 use tracing::{Event, Level, Subscriber};
 use tracing_subscriber::Layer;
 
@@ -15,7 +16,7 @@ const ANDROID_LOG_SILENT: i32 = 8;
 
 #[link(name = "log")]
 extern "C" {
-    fn __android_log_write(prio: i32, tag: *const i8, text: *const i8) -> i32;
+    fn __android_log_write(prio: c_int, tag: *const c_char, text: *const c_char) -> c_int;
 }
 
 pub struct AndroidNdkLayer {
@@ -59,11 +60,7 @@ where
             CString::new(message.as_str()),
         ) {
             unsafe {
-                __android_log_write(
-                    priority,
-                    tag.as_ptr() as *const i8,
-                    text.as_ptr() as *const i8,
-                );
+                __android_log_write(priority, tag.as_ptr(), text.as_ptr());
             }
         }
     }
@@ -73,38 +70,38 @@ where
 struct AndroidLogVisitor<'a>(&'a mut String);
 
 impl<'a> tracing::field::Visit for AndroidLogVisitor<'a> {
-    fn record_debug(&mut self, field: &tracing::field::Field, value: &dyn fmt::Debug) {
+    fn record_i64(&mut self, _field: &tracing::field::Field, value: i64) {
         if !self.0.is_empty() {
             self.0.push_str(" ");
         }
-        self.0.push_str(&format!("{}={:?}", field.name(), value));
+        self.0.push_str(&format!("{}", value));
     }
 
-    fn record_str(&mut self, field: &tracing::field::Field, value: &str) {
+    fn record_u64(&mut self, _field: &tracing::field::Field, value: u64) {
         if !self.0.is_empty() {
             self.0.push_str(" ");
         }
-        self.0.push_str(&format!("{}=\"{}\"", field.name(), value));
+        self.0.push_str(&format!("{}", value));
     }
 
-    fn record_i64(&mut self, field: &tracing::field::Field, value: i64) {
+    fn record_bool(&mut self, _field: &tracing::field::Field, value: bool) {
         if !self.0.is_empty() {
             self.0.push_str(" ");
         }
-        self.0.push_str(&format!("{}={}", field.name(), value));
+        self.0.push_str(&format!("{}", value));
     }
 
-    fn record_u64(&mut self, field: &tracing::field::Field, value: u64) {
+    fn record_str(&mut self, _field: &tracing::field::Field, value: &str) {
         if !self.0.is_empty() {
             self.0.push_str(" ");
         }
-        self.0.push_str(&format!("{}={}", field.name(), value));
+        self.0.push_str(&format!("{}", value));
     }
 
-    fn record_bool(&mut self, field: &tracing::field::Field, value: bool) {
+    fn record_debug(&mut self, _field: &tracing::field::Field, value: &dyn fmt::Debug) {
         if !self.0.is_empty() {
             self.0.push_str(" ");
         }
-        self.0.push_str(&format!("{}={}", field.name(), value));
+        self.0.push_str(&format!("{:?}", value));
     }
 }
