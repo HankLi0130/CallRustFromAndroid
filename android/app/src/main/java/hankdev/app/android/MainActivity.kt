@@ -1,8 +1,8 @@
 package hankdev.app.android
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import hankdev.app.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +14,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.call1.setOnClickListener { Log.i(tag, RustLib.hello("Android")) }
+        with(binding) {
+            call1.setOnClickListener { Log.i(tag, RustLib.hello("Android")) }
+            call2.setOnClickListener { RustLib.initLogging() }
+            call3.setOnClickListener { RustLib.showLog() }
+        }
     }
 }

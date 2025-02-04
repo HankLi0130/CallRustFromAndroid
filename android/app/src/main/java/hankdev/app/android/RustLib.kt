@@ -7,4 +7,6 @@ object RustLib {
     }
 
     external fun hello(name: String): String
+    external fun initLogging()
+    external fun showLog()
 }

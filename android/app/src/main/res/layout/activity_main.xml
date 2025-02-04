@@ -10,10 +10,29 @@
         android:id="@+id/call1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello Rust"
+        android:text="call1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <Button
+        android:id="@+id/call2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="call2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/call1" />
+
+    <Button
+        android:id="@+id/call3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="call3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/call2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
