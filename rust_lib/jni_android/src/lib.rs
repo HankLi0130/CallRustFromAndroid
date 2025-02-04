@@ -31,3 +31,15 @@ pub extern "C" fn Java_hankdev_app_android_RustLib_hello(
         .expect("Couldn't get java string!")
         .into_raw()
 }
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_hankdev_app_android_RustLib_initLogging(_env: JNIEnv, _class: JClass) {
+    core::init_logging()
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_hankdev_app_android_RustLib_showLog(_env: JNIEnv, _class: JClass) {
+    core::show_log()
+}
