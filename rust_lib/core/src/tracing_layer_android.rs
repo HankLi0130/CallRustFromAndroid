@@ -19,11 +19,11 @@ extern "C" {
     fn __android_log_write(prio: c_int, tag: *const c_char, text: *const c_char) -> c_int;
 }
 
-pub struct AndroidNdkLayer {
+pub struct AndroidLogger {
     tag: String,
 }
 
-impl AndroidNdkLayer {
+impl AndroidLogger {
     pub fn new<S: Into<String>>(tag: S) -> Self {
         Self { tag: tag.into() }
     }
@@ -39,7 +39,7 @@ impl AndroidNdkLayer {
     }
 }
 
-impl<S> Layer<S> for AndroidNdkLayer
+impl<S> Layer<S> for AndroidLogger
 where
     S: Subscriber,
 {
