@@ -3,15 +3,24 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
 mod tracing_layer_android;
+mod tracing_layer_apple;
 
 pub fn hello(name: &str) -> String {
     format!("Hello, {}! This is from Rust.", name)
 }
 
 pub fn init_logging() {
-    let android_layer = tracing_layer_android::AndroidNdkLayer::new("rust_lib core");
+    #[cfg(target_os = "android")]
+    {
+        let layer = tracing_layer_android::AndroidLogger::new("rust_lib core");
+        tracing_subscriber::registry().with(layer).init();
+    }
 
-    tracing_subscriber::registry().with(android_layer).init();
+    #[cfg(any(target_os = "ios", target_os = "macos"))]
+    {
+        let layer = tracing_layer_apple::AppleLogger::new("com.example.app", "main");
+        tracing_subscriber::registry().with(layer).init();
+    }
 
     trace!("init done!");
     debug!("init done!");
