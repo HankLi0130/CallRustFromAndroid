@@ -1,8 +1,4 @@
 use tracing::{debug, error, info, trace, warn};
-use tracing_subscriber::layer::SubscriberExt;
-use tracing_subscriber::util::SubscriberInitExt;
-
-mod tracing_layer_android;
 
 pub fn hello(name: &str) -> String {
     format!("Hello, {}! This is from Rust.", name)
@@ -11,7 +7,10 @@ pub fn hello(name: &str) -> String {
 pub fn init_logging() {
     #[cfg(target_os = "android")]
     {
-        let layer = tracing_layer_android::AndroidLogger::new("rust_lib core");
+        use tracing_subscriber::layer::SubscriberExt;
+        use tracing_subscriber::util::SubscriberInitExt;
+
+        let layer = tracing_android::layer("rust_lib core").unwrap();
         tracing_subscriber::registry().with(layer).init();
     }
 
