@@ -3,7 +3,6 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
 mod tracing_layer_android;
-mod tracing_layer_apple;
 
 pub fn hello(name: &str) -> String {
     format!("Hello, {}! This is from Rust.", name)
@@ -18,7 +17,7 @@ pub fn init_logging() {
 
     #[cfg(any(target_os = "ios", target_os = "macos"))]
     {
-        let layer = tracing_layer_apple::AppleLogger::new("com.example.app", "main");
+        let layer = tracing_oslog::OsLogger::new("com.example.app", "main");
         tracing_subscriber::registry().with(layer).init();
     }
 
@@ -30,7 +29,11 @@ pub fn init_logging() {
 }
 
 pub fn show_log() {
-    info!("show log from Rust!!!")
+    trace!("show log from Rust!!!");
+    debug!("show log from Rust!!!");
+    info!("show log from Rust!!!");
+    warn!("show log from Rust!!!");
+    error!("show log from Rust!!!");
 }
 
 #[cfg(test)]
