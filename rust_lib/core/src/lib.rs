@@ -15,12 +15,6 @@ pub fn init_logging() {
         tracing_subscriber::registry().with(layer).init();
     }
 
-    #[cfg(any(target_os = "ios", target_os = "macos"))]
-    {
-        let layer = tracing_oslog::OsLogger::new("com.example.app", "main");
-        tracing_subscriber::registry().with(layer).init();
-    }
-
     trace!("init done!");
     debug!("init done!");
     info!("init done!");
